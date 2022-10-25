@@ -6,9 +6,38 @@ class SignUpForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final themeData = Theme.of(context);
+    final GlobalKey<FormState> formkey = GlobalKey<FormState>();
+
+  // validation function (email)
+    String? validateEmail(String? input){
+
+      const emailRegEx = r"""^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+""";
+
+      if (input == null || input.isEmpty) {
+        return "Please enter email";
+      } else if (RegExp(emailRegEx).hasMatch(input)) {
+        return null;
+      } else {
+        return "Invalid email format";
+      }
+    }
+
+    // validation function (password)
+    String? validatePassword(String? input) {
+      if (input == null || input.isEmpty) {
+        return "Please enter password";
+      } else if (input.length >= 6) {
+        return null;
+      } else {
+        return "Short password";
+      }
+    }
+
+
+    
     return Form(
+      key: formkey,
       child: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         children: [
@@ -30,6 +59,8 @@ class SignUpForm extends StatelessWidget {
           )),
           const SizedBox(height: 80,),
           TextFormField(
+            validator: validateEmail,
+            autovalidateMode: AutovalidateMode.disabled,  //life validation sofort
             cursorColor: Colors.white,
             decoration: const InputDecoration(
               labelText: 'E-mail',
@@ -37,6 +68,8 @@ class SignUpForm extends StatelessWidget {
           ),
           const SizedBox(height: 20,),
           TextFormField(
+            validator: validatePassword,
+            autovalidateMode: AutovalidateMode.disabled,  //life validation sofort
             cursorColor: Colors.white,
             obscureText: true, // hides input
             decoration: const InputDecoration(
@@ -47,7 +80,22 @@ class SignUpForm extends StatelessWidget {
           SignupRegisterButton(
             buttonText: 'Sign In',
             callback: (){
+
               print('Sign In');
+
+              if(formkey.currentState!.validate()){
+                print('validated email');
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Invalid data',
+                    style: themeData.textTheme.bodyText1,),
+                    backgroundColor: Colors.redAccent,
+                    )
+                );
+                
+              }
+
             },),
           const SizedBox(height: 20,),
           SignupRegisterButton(

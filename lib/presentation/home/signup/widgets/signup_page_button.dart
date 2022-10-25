@@ -16,7 +16,7 @@ class SignupRegisterButton extends StatelessWidget {
         height: 60,
         width:  double.infinity,
         decoration: BoxDecoration(
-          color: themeData.colorScheme.secondary,
+          color: themeData.colorScheme.tertiary,
           borderRadius: BorderRadius.circular(12)),
         child: Center(child: Text(
           buttonText,
