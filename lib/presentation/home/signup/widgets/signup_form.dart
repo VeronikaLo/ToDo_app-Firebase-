@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/presentation/home/signup/widgets/signup_page_button.dart';
 
 class SignUpForm extends StatelessWidget {
   const SignUpForm({super.key});
@@ -41,7 +42,20 @@ class SignUpForm extends StatelessWidget {
             decoration: const InputDecoration(
               labelText: 'Password',
             ),
-          )
+          ),
+          const SizedBox(height: 40,),
+          SignupRegisterButton(
+            buttonText: 'Sign In',
+            callback: (){
+              print('Sign In');
+            },),
+          const SizedBox(height: 20,),
+          SignupRegisterButton(
+            buttonText: 'Register',
+            callback: (){
+              print('Register');
+            }),
+          const SizedBox(height: 40,),
         ], ),);
   }
 }
