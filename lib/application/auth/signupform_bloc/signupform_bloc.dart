@@ -5,7 +5,7 @@ part 'signupform_event.dart';
 part 'signupform_state.dart';
 
 class SignupformBloc extends Bloc<SignupformEvent, SignupformState> {
-  SignupformBloc() : super(SignupformState(isSignIn: false, showValidationMessages: false)) {
+  SignupformBloc() : super(SignupformState(isSubmitting: false, showValidationMessages: false)) {
 
     on<SignUpWithEmailAndPasswordPressed>((event, emit) {
       // TODO: implement event handler

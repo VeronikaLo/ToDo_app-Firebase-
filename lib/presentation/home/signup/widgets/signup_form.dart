@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/presentation/home/signup/widgets/signup_page_button.dart';
+
+import '../../../../application/auth/signupform_bloc/signupform_bloc.dart';
 
 class SignUpForm extends StatelessWidget {
   const SignUpForm({super.key});
@@ -9,10 +12,10 @@ class SignUpForm extends StatelessWidget {
     final themeData = Theme.of(context);
     final GlobalKey<FormState> formkey = GlobalKey<FormState>();
 
-  // validation function (email)
-    String? validateEmail(String? input){
-
-      const emailRegEx = r"""^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+""";
+    // validation function (email)
+    String? validateEmail(String? input) {
+      const emailRegEx =
+          r"""^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+""";
 
       if (input == null || input.isEmpty) {
         return "Please enter email";
@@ -34,76 +37,100 @@ class SignUpForm extends StatelessWidget {
       }
     }
 
+    return BlocConsumer<SignupformBloc, SignupformState>(
+      listener: (context, state) {
+        // TODO: navigate to homapage if auth is successful,
+        // TODO: show error message if not
+      },
+      builder: (context, state) {
+        return Form(
+          key: formkey,
+          autovalidateMode: state.showValidationMessages
+          ? AutovalidateMode.always
+          : AutovalidateMode.disabled,
+          child: ListView(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            children: [
+              const SizedBox(
+                height: 80,
+              ),
+              Text('Welcome',
+                  textAlign: TextAlign.center,
+                  style: themeData.textTheme.headline1!.copyWith(
+                    fontSize: 50,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 4,
+                  )),
+              const SizedBox(
+                height: 20,
+              ),
+              Text('Please register or sign in',
+                  textAlign: TextAlign.center,
+                  style: themeData.textTheme.headline1!.copyWith(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 4,
+                  )),
+              const SizedBox(
+                height: 80,
+              ),
+              TextFormField(
+                validator: validateEmail, 
+                cursorColor: Colors.white,
+                decoration: const InputDecoration(
+                  labelText: 'E-mail',
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              TextFormField(
+                validator: validatePassword,
+                cursorColor: Colors.white,
+                obscureText: true, // hides input
+                decoration: const InputDecoration(
+                  labelText: 'Password',
+                ),
+              ),
+              const SizedBox(
+                height: 40,
+              ),
+              SignupRegisterButton(
+                buttonText: 'Sign In',
+                callback: () {
 
-    
-    return Form(
-      key: formkey,
-      child: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        children: [
-          const SizedBox(height: 80,),
-          Text('Welcome', 
-          textAlign: TextAlign.center,
-          style: themeData.textTheme.headline1!.copyWith(
-            fontSize: 50,
-            fontWeight: FontWeight.w500,
-            letterSpacing: 4,
-          )),
-          const SizedBox(height: 20,),
-          Text('Please register or sign in', 
-          textAlign: TextAlign.center,
-          style: themeData.textTheme.headline1!.copyWith(
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-            letterSpacing: 4,
-          )),
-          const SizedBox(height: 80,),
-          TextFormField(
-            validator: validateEmail,
-            autovalidateMode: AutovalidateMode.disabled,  //life validation sofort
-            cursorColor: Colors.white,
-            decoration: const InputDecoration(
-              labelText: 'E-mail',
-            ),
+                  if (formkey.currentState!.validate()) {
+                    print('validated email');
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text(
+                        'Invalid data',
+                        style: themeData.textTheme.bodyText1,
+                      ),
+                      backgroundColor: Colors.redAccent,
+                    ));
+                  }
+                },
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              SignupRegisterButton(
+                  buttonText: 'Register',
+                  callback: () {
+                    print('Register');
+                  }),
+              const SizedBox(
+                height: 30,
+              ),
+              // this appears only if state is isSubmitting
+              if(state.isSubmitting)...[
+              LinearProgressIndicator( color: themeData.colorScheme.tertiary,),
+              const SizedBox(height: 10,),]
+            ],
           ),
-          const SizedBox(height: 20,),
-          TextFormField(
-            validator: validatePassword,
-            autovalidateMode: AutovalidateMode.disabled,  //life validation sofort
-            cursorColor: Colors.white,
-            obscureText: true, // hides input
-            decoration: const InputDecoration(
-              labelText: 'Password',
-            ),
-          ),
-          const SizedBox(height: 40,),
-          SignupRegisterButton(
-            buttonText: 'Sign In',
-            callback: (){
-
-              print('Sign In');
-
-              if(formkey.currentState!.validate()){
-                print('validated email');
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Invalid data',
-                    style: themeData.textTheme.bodyText1,),
-                    backgroundColor: Colors.redAccent,
-                    )
-                );
-                
-              }
-
-            },),
-          const SizedBox(height: 20,),
-          SignupRegisterButton(
-            buttonText: 'Register',
-            callback: (){
-              print('Register');
-            }),
-          const SizedBox(height: 40,),
-        ], ),);
+        );
+      },
+    );
   }
 }
