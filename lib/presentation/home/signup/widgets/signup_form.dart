@@ -11,6 +11,8 @@ class SignUpForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
     final GlobalKey<FormState> formkey = GlobalKey<FormState>();
+    late String _email;
+    late String _password;
 
     // validation function (email)
     String? validateEmail(String? input) {
@@ -20,6 +22,7 @@ class SignUpForm extends StatelessWidget {
       if (input == null || input.isEmpty) {
         return "Please enter email";
       } else if (RegExp(emailRegEx).hasMatch(input)) {
+        _email = input;
         return null;
       } else {
         return "Invalid email format";
@@ -31,6 +34,7 @@ class SignUpForm extends StatelessWidget {
       if (input == null || input.isEmpty) {
         return "Please enter password";
       } else if (input.length >= 6) {
+        _password = input;
         return null;
       } else {
         return "Short password";
@@ -99,9 +103,14 @@ class SignUpForm extends StatelessWidget {
                 buttonText: 'Sign In',
                 callback: () {
 
-                  if (formkey.currentState!.validate()) {
+                  if (formkey.currentState!.validate()) {  // if validation ok --> BlocEvent is added
+                    BlocProvider.of<SignupformBloc>(context).add(SignUpWithEmailAndPasswordPressed(email: _email , password: _password ));
                     print('validated email');
-                  } else {
+
+                  } else {  // if validation is not ok --> BlocEvent with null values (in BlocEvent - strings as nullable type)
+
+                  BlocProvider.of<SignupformBloc>(context).add(SignUpWithEmailAndPasswordPressed(email: null , password: null ));
+
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content: Text(
                         'Invalid data',
@@ -118,7 +127,25 @@ class SignUpForm extends StatelessWidget {
               SignupRegisterButton(
                   buttonText: 'Register',
                   callback: () {
-                    print('Register');
+                    
+                    if (formkey.currentState!.validate()) {  // if validation ok --> BlocEvent is added
+                    BlocProvider.of<SignupformBloc>(context).add(RegisterWithEmailAndPasswordPressed(email: _email , password: _password ));
+                    print('validated password');
+
+                  } else {  // if validation is not ok --> BlocEvent with null values (in BlocEvent - strings as nullable type)
+
+                  BlocProvider.of<SignupformBloc>(context).add(RegisterWithEmailAndPasswordPressed(email: null , password: null ));
+
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text(
+                        'Invalid data',
+                        style: themeData.textTheme.bodyText1,
+                      ),
+                      backgroundColor: Colors.redAccent,
+                    ));
+                  }  
+
+
                   }),
               const SizedBox(
                 height: 30,
