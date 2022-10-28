@@ -60,6 +60,7 @@ class SignUpForm extends StatelessWidget {
     }
 
     return BlocConsumer<SignupformBloc, SignupformState>(
+      listenWhen: (p,c) => p.authFailureOrSuccessOption != c.authFailureOrSuccessOption,
       listener: (context, state) {
 
         state.authFailureOrSuccessOption.fold(
@@ -77,7 +78,7 @@ class SignUpForm extends StatelessWidget {
 
             }, 
             (_) => { // navigate to homapage if auth is successful,
-              AutoRouter.of(context).push(const HomePageRoute())
+              AutoRouter.of(context).replace(const HomePageRoute())
             }));
       },
       builder: (context, state) {
