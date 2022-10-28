@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app/core/failures/auth_failures.dart';
 import 'package:todo_app/presentation/home/signup/widgets/signup_page_button.dart';
 
 import '../../../../application/auth/signupform_bloc/signupform_bloc.dart';
@@ -41,10 +42,40 @@ class SignUpForm extends StatelessWidget {
       }
     }
 
+    // function to differantiate the failer messages
+    String mapFailureMessage(AuthFailure failure){
+      
+      switch(failure.runtimeType){
+        case ServerFailure:
+          return 'Something went wrong';
+        case EmailAlreadyInUseFailure: 
+          return 'Email is already in use';
+        case InvalidEmailAndPasswordCombination:
+          return 'Invalid email and password combination'; 
+        default:
+          return 'Something went wrong'; 
+      }
+    }
+
     return BlocConsumer<SignupformBloc, SignupformState>(
       listener: (context, state) {
         // TODO: navigate to homapage if auth is successful,
         // TODO: show error message if not
+        state.authFailureOrSuccessOption.fold(
+          () => {}, 
+          (eitherFailOrSuccess) => eitherFailOrSuccess.fold(
+            (failure) {
+
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text(
+                        mapFailureMessage(failure),
+                        style: themeData.textTheme.bodyText1,
+                      ),
+                      backgroundColor: Colors.redAccent,
+                    ));
+
+            }, 
+            (_) => print('Logged in!!!')));
       },
       builder: (context, state) {
         return Form(

@@ -8,6 +8,8 @@ class AuthRepositoryImpl implements AuthRepository{
   final FirebaseAuth firebaseAuth;
   AuthRepositoryImpl({required this.firebaseAuth});
 
+  
+
   @override
   Future<Either<AuthFailure, Unit>> registerWithEmailAndPassword({required String email, required String password}) async{
     
