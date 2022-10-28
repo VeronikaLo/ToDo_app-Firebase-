@@ -1,9 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/core/failures/auth_failures.dart';
-import 'package:todo_app/presentation/home/signup/widgets/signup_page_button.dart';
+import 'package:todo_app/presentation/signup/widgets/signup_page_button.dart';
 
-import '../../../../application/auth/signupform_bloc/signupform_bloc.dart';
+import '../../../application/auth/signupform_bloc/signupform_bloc.dart';
+import '../../routes/router.gr.dart';
 
 class SignUpForm extends StatelessWidget {
   const SignUpForm({super.key});
@@ -75,7 +77,9 @@ class SignUpForm extends StatelessWidget {
                     ));
 
             }, 
-            (_) => print('Logged in!!!')));
+            (_) => {
+              AutoRouter.of(context).push(const HomePageRoute())
+            }));
       },
       builder: (context, state) {
         return Form(
