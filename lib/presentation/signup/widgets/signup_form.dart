@@ -61,12 +61,11 @@ class SignUpForm extends StatelessWidget {
 
     return BlocConsumer<SignupformBloc, SignupformState>(
       listener: (context, state) {
-        // TODO: navigate to homapage if auth is successful,
-        // TODO: show error message if not
+
         state.authFailureOrSuccessOption.fold(
           () => {}, 
           (eitherFailOrSuccess) => eitherFailOrSuccess.fold(
-            (failure) {
+            (failure) { // show error message if auth is not successful
 
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content: Text(
@@ -77,7 +76,7 @@ class SignUpForm extends StatelessWidget {
                     ));
 
             }, 
-            (_) => {
+            (_) => { // navigate to homapage if auth is successful,
               AutoRouter.of(context).push(const HomePageRoute())
             }));
       },

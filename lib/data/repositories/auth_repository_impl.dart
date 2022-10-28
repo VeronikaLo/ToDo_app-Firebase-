@@ -8,7 +8,7 @@ class AuthRepositoryImpl implements AuthRepository{
   final FirebaseAuth firebaseAuth;
   AuthRepositoryImpl({required this.firebaseAuth});
 
-  
+
 
   @override
   Future<Either<AuthFailure, Unit>> registerWithEmailAndPassword({required String email, required String password}) async{
@@ -43,4 +43,19 @@ class AuthRepositoryImpl implements AuthRepository{
     }
 
   }
+  
+
+  @override
+  /*
+  Future<void> signOut() async{
+    await firebaseAuth.signOut();
+  }
+  */
+
+  Future<void> signOut() => Future.wait(
+    [
+      firebaseAuth.signOut(),
+    ]
+  );
+
 }
