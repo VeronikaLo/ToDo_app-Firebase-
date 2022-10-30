@@ -7,6 +7,7 @@ import 'package:todo_app/domain/repositories/auth_repository.dart';
 
 import 'application/auth/auth_bloc/auth_bloc.dart';
 import 'application/auth/signupform_bloc/signupform_bloc.dart';
+import 'application/observer/observer_bloc.dart';
 import 'data/repositories/todo_repository_impl.dart';
 import 'domain/repositories/todo_repository.dart';
 
@@ -30,6 +31,10 @@ Future<void> init()async{
 
 
   // ########### todo functionality ###########
+
+
+  // state management
+  sl.registerFactory(() => ObserverBloc(todoRepository: sl()));
 
    // repos
   sl.registerLazySingleton<TodoRepository>(() => TodoRepositoryImpl(firestore: sl()));
