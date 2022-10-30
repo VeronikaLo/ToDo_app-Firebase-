@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 import 'package:todo_app/domain/entities/id.dart';
 import 'package:todo_app/domain/entities/todo_color.dart';
 
