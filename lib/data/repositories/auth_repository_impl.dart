@@ -3,7 +3,7 @@ import 'package:todo_app/core/failures/auth_failures.dart';
 import 'package:dartz/dartz.dart';
 import 'package:todo_app/domain/entities/user.dart';
 import 'package:todo_app/domain/repositories/auth_repository.dart';
-import 'package:todo_app/data/models/firebase_user_mapper.dart';
+import 'package:todo_app/data/extensions/firebase_user_mapper.dart';
 
 class AuthRepositoryImpl implements AuthRepository{
 
