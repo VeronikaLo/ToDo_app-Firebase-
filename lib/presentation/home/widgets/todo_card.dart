@@ -7,24 +7,63 @@ class TodoCard extends StatelessWidget {
   final Todo todo;
   const TodoCard({super.key, required this.todo});
 
+  void _showDeleteDialog(
+      {required BuildContext context, required ControllerBloc bloc}) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("Selected Todo to delete:"),
+            content: Text(
+              todo.title,
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+            ),
+            actions: [
+              TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text(
+                    "CANCLE",
+                    style: TextStyle(color: Colors.white),
+                  )),
+              TextButton(
+                  onPressed: () {
+                    bloc.add(DeleteTodoEvent(todo: todo));
+                    Navigator.pop(context);
+                  },
+                  child: const Text(
+                    "DELETE",
+                    style: TextStyle(color: Colors.white),
+                  )),
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    return Card(
-      elevation: 16,
-      color: todo.color.color,
-      child: ListTile(
-        leading: Checkbox(
-          value: todo.done,
-          onChanged: (value){
-            if (value != null) {
-                BlocProvider.of<ControllerBloc>(context)
-                    .add(UpdateTodoEvent(todo: todo, done: value));
-              }
-          }, ) ,
-        title:  Text(
-          todo.title,
-          style: themeData.textTheme.headline1!.copyWith(fontSize: 18, fontWeight: FontWeight.bold), 
+    return InkResponse(
+      onLongPress: () {
+        final controllerBloc = context.read<ControllerBloc>();
+        _showDeleteDialog(context: context, bloc: controllerBloc);
+      },
+      child: Card(
+        elevation: 16,
+        color: todo.color.color,
+        child: ListTile(
+          leading: Checkbox(
+            value: todo.done,
+            onChanged: (value){
+              if (value != null) {
+                  BlocProvider.of<ControllerBloc>(context)
+                      .add(UpdateTodoEvent(todo: todo, done: value));
+                }
+            }, ) ,
+          title:  Text(
+            todo.title,
+            style: themeData.textTheme.headline1!.copyWith(fontSize: 18, fontWeight: FontWeight.bold), 
+          ),
         ),
       ),
     );
