@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app/presentation/home/widgets/todo_card.dart';
 
 import '../../../application/observer/observer_bloc.dart';
 
@@ -26,11 +27,7 @@ class HomepageBody extends StatelessWidget {
             itemCount: state.todos.length,
             itemBuilder: (context, index){
               final todo = state.todos[index];
-              return Container(
-                margin: const EdgeInsets.all(4),
-                color: Colors.green,
-                height: 50,
-              );
+              return TodoCard(todo: todo);
             },
           );
         }
