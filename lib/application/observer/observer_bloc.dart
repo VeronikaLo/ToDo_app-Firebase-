@@ -13,7 +13,7 @@ part 'observer_state.dart';
 
 class ObserverBloc extends Bloc<ObserverEvent, ObserverState> {
   final TodoRepository todoRepository;
-  StreamSubscription<Either<TodoFailure, List<Todo>>>? _todoStreamSub;
+  StreamSubscription<Either<TodoFailure, List<Todo>>>? _todoStreamSub; // a stream subscription
 
   ObserverBloc({required this.todoRepository}) : super(ObserverInitial()) {
     
@@ -30,7 +30,7 @@ class ObserverBloc extends Bloc<ObserverEvent, ObserverState> {
 
 
     on<TodosUpdatedEvent>((event, emit) {
-        print(event.failureOrTodos);
+
         event.failureOrTodos.fold(
           (failures) => emit(ObserverFailure(todoFailure: failures)), 
           (todos) => emit(ObserverSuccess(todos: todos)));
