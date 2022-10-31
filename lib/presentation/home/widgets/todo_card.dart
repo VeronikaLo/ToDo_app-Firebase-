@@ -14,7 +14,7 @@ class TodoCard extends StatelessWidget {
       child: ListTile(
         leading: Checkbox(
           value: todo.done,
-          onChanged: (_){}, ) ,
+          onChanged: (value){}, ) ,
         title:  Text(
           todo.title,
           style: themeData.textTheme.headline1!.copyWith(fontSize: 18, fontWeight: FontWeight.bold), 
