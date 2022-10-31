@@ -7,10 +7,24 @@ import 'package:todo_app/presentation/routes/router.gr.dart';
 import 'package:todo_app/presentation/signup/signup_page.dart';
 
 import '../../application/auth/auth_bloc/auth_bloc.dart';
+import '../../application/todo/controller/controller_bloc.dart';
+import '../../core/failures/todo_failures.dart';
 import '../../injection.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
+
+  String _mapFailureToMessage(TodoFailure todoFailure) {
+    switch (todoFailure.runtimeType) {
+      case InsufficientPermissions:
+        return "You have not the permissions to do that";
+      case UnexpectedFailure:
+        return "Something went wrong";
+
+      default:
+        return "Something went wrong";
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +32,7 @@ class HomePage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ObserverBloc>(create: (context) => observerBloc),
+        BlocProvider<ControllerBloc>(create: (context) => sl<ControllerBloc>()),
       ],
       child: MultiBlocListener(
         listeners: [
@@ -25,7 +40,16 @@ class HomePage extends StatelessWidget {
             if(state is AuthStateUnauthenticated){
               AutoRouter.of(context).push(const SignUpPageRoute());
             }
-          })
+          }),
+          
+          BlocListener<ControllerBloc, ControllerState>(listener: (context, state) {
+            if(state is ControllerFailure){
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  backgroundColor: Colors.redAccent,
+                  content: Text(_mapFailureToMessage(state.todoFailure))));
+            }
+            
+          }),
         ], 
         child: Scaffold(
         appBar: AppBar(
