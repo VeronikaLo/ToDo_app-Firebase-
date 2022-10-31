@@ -4,9 +4,9 @@ import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';
 
-import '../../core/failures/todo_failures.dart';
-import '../../domain/entities/todo.dart';
-import '../../domain/repositories/todo_repository.dart';
+import '../../../core/failures/todo_failures.dart';
+import '../../../domain/entities/todo.dart';
+import '../../../domain/repositories/todo_repository.dart';
 
 part 'observer_event.dart';
 part 'observer_state.dart';
