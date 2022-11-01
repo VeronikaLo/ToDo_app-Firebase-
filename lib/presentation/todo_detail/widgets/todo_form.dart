@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app/presentation/pres_core/custom_button.dart';
 import 'package:todo_app/presentation/todo_detail/widgets/color_field.dart';
 
 import '../../../application/todo/todoform/todoform_bloc.dart';
@@ -9,7 +10,7 @@ class TodoForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<FormState> formkey = GlobalKey<FormState>();
+    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     final textControllerTitle = TextEditingController();
     final textControllerBody = TextEditingController();
 
@@ -49,7 +50,7 @@ class TodoForm extends StatelessWidget {
         return  Padding(
           padding:  const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
           child: Form(
-            key: formkey,
+            key: formKey,
             autovalidateMode: state.showErrorMessages? AutovalidateMode.always : AutovalidateMode.disabled,
             child: ListView(
               children: [
@@ -82,6 +83,25 @@ class TodoForm extends StatelessWidget {
                 ),
                 const SizedBox(height: 30,),
                 ColorField(color: state.todo.color),
+                const SizedBox(height: 30,),
+                CustomButton(
+                  buttonText: "SAVE", 
+                  callback: (){
+                    if (formKey.currentState!.validate()) {
+                        BlocProvider.of<TodoformBloc>(context)
+                            .add(SavePressedEvent(body: body, title: title));
+                      } else {
+                        BlocProvider.of<TodoformBloc>(context)
+                            .add(SavePressedEvent(body: null, title: null));
+
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            backgroundColor: Colors.redAccent,
+                            content: Text(
+                              "Invalid Input",
+                              style: Theme.of(context).textTheme.bodyText1,
+                            )));
+                      }
+                  }),
 
               ],)) ,
         );

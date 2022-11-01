@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/core/failures/auth_failures.dart';
-import 'package:todo_app/presentation/signup/widgets/signup_page_button.dart';
+import 'package:todo_app/presentation/pres_core/custom_button.dart';
 
 import '../../../application/auth/signupform_bloc/signupform_bloc.dart';
 import '../../routes/router.gr.dart';
@@ -134,7 +134,7 @@ class SignUpForm extends StatelessWidget {
               const SizedBox(
                 height: 40,
               ),
-              SignupRegisterButton(
+              CustomButton(
                 buttonText: 'Sign In',
                 callback: () {
 
@@ -159,7 +159,7 @@ class SignUpForm extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              SignupRegisterButton(
+              CustomButton(
                   buttonText: 'Register',
                   callback: () {
                     

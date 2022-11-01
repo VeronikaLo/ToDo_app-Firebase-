@@ -13,9 +13,9 @@ class ColorChangedEvent extends TodoformEvent {
   ColorChangedEvent({required this.color});
 }
 
-class SafePressedEvent extends TodoformEvent {
+class SavePressedEvent extends TodoformEvent {
   final String? title;
   final String? body;
 
-  SafePressedEvent({required this.title, required this.body});
+  SavePressedEvent({required this.title, required this.body});
 }
