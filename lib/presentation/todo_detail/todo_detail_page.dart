@@ -6,6 +6,7 @@ import '../../core/failures/todo_failures.dart';
 import '../../domain/entities/todo.dart';
 import '../../injection.dart';
 import '../routes/router.gr.dart';
+import 'widgets/todo_form.dart';
 
 class TodoDetail extends StatelessWidget {
   final Todo? todo;
@@ -47,7 +48,7 @@ class TodoDetail extends StatelessWidget {
             title: Text(todo == null ? 'Create  ToDo' : 'Edit  ToDo'),
             centerTitle: true,
           ),
-          body: const Placeholder(),
+          body: const TodoForm(),
         ),
       ),
     );
