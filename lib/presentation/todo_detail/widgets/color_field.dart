@@ -21,7 +21,7 @@ class ColorField extends StatelessWidget {
 
           return InkWell(
             onTap: (){
-              BlocProvider.of<TodoformBloc>(context).add(event);
+              BlocProvider.of<TodoformBloc>(context).add(ColorChangedEvent(color: itemColor));
             },
             child: Material(
               color: itemColor,

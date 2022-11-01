@@ -6,6 +6,7 @@ import 'package:todo_app/domain/repositories/todo_repository.dart';
 
 import '../../../core/failures/todo_failures.dart';
 import '../../../domain/entities/todo.dart';
+import '../../../domain/entities/todo_color.dart';
 
 part 'todoform_event.dart';
 part 'todoform_state.dart';
@@ -21,6 +22,12 @@ class TodoformBloc extends Bloc<TodoformEvent, TodoformState> {
       } else {
         emit(state);
       }
+    });
+
+
+    on<ColorChangedEvent>((event, emit) {
+      emit(state.copyWith(
+          todo: state.todo.copyWith(color: TodoColor(color: event.color))));
     });
 
   }
