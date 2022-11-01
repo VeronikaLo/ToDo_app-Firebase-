@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app/presentation/todo_detail/widgets/color_field.dart';
 
 import '../../../application/todo/todoform/todoform_bloc.dart';
 
@@ -79,6 +80,9 @@ class TodoForm extends StatelessWidget {
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(12))
                   ),
                 ),
+                const SizedBox(height: 30,),
+                ColorField(color: state.todo.color),
+
               ],)) ,
         );
       },
