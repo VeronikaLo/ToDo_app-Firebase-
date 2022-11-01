@@ -9,6 +9,7 @@ import 'application/auth/auth_bloc/auth_bloc.dart';
 import 'application/auth/signupform_bloc/signupform_bloc.dart';
 import 'application/todo/observer/observer_bloc.dart';
 import 'application/todo/controller/controller_bloc.dart';
+import 'application/todo/todoform/todoform_bloc.dart';
 import 'data/repositories/todo_repository_impl.dart';
 import 'domain/repositories/todo_repository.dart';
 
@@ -37,6 +38,7 @@ Future<void> init()async{
   // state management
   sl.registerFactory(() => ObserverBloc(todoRepository: sl()));
   sl.registerFactory(() => ControllerBloc(todoRepository: sl()));
+  sl.registerFactory(() => TodoformBloc(todoRepository: sl()));
 
    // repos
   sl.registerLazySingleton<TodoRepository>(() => TodoRepositoryImpl(firestore: sl()));
