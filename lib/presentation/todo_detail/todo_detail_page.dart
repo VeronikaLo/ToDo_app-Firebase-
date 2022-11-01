@@ -12,8 +12,8 @@ class TodoDetail extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title:  Text(todo == null
-        ? 'Create todo'
-        : 'Edit todo'), 
+        ? 'Create  ToDo'
+        : 'Edit  ToDo'), 
         centerTitle: true,
       ),
       body: const Placeholder(),

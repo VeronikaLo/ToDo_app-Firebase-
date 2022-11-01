@@ -4,11 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/application/todo/observer/observer_bloc.dart';
 import 'package:todo_app/presentation/home/widgets/homepage_body.dart';
 import 'package:todo_app/presentation/routes/router.gr.dart';
-import 'package:todo_app/presentation/signup/signup_page.dart';
 
 import '../../application/auth/auth_bloc/auth_bloc.dart';
 import '../../application/todo/controller/controller_bloc.dart';
-//import '../../application/todo/observer/observer_bloc.dart';
 import '../../core/failures/todo_failures.dart';
 import '../../injection.dart';
 
@@ -59,7 +57,7 @@ class HomePage extends StatelessWidget {
               BlocProvider.of<AuthBloc>(context).add(SignOutPressedEvent());
             } ,
             icon: const Icon(Icons.exit_to_app),),
-          title: const Text('ToDo'),),
+          title: const Text('My  ToDos'), centerTitle: true,),
         body: const HomepageBody(),
         floatingActionButton: FloatingActionButton(
           backgroundColor: Theme.of(context).colorScheme.tertiary,
