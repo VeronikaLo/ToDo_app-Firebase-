@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/presentation/home/widgets/todo_card.dart';
 
-import '../../../application/observer/observer_bloc.dart';
+import '../../../application/todo/observer/observer_bloc.dart';
 
 
 class HomepageBody extends StatelessWidget {

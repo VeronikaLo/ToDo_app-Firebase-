@@ -1,13 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_app/application/observer/observer_bloc.dart';
+import 'package:todo_app/application/todo/observer/observer_bloc.dart';
 import 'package:todo_app/presentation/home/widgets/homepage_body.dart';
 import 'package:todo_app/presentation/routes/router.gr.dart';
 import 'package:todo_app/presentation/signup/signup_page.dart';
 
 import '../../application/auth/auth_bloc/auth_bloc.dart';
 import '../../application/todo/controller/controller_bloc.dart';
+//import '../../application/todo/observer/observer_bloc.dart';
 import '../../core/failures/todo_failures.dart';
 import '../../injection.dart';
 
@@ -41,7 +42,7 @@ class HomePage extends StatelessWidget {
               AutoRouter.of(context).push(const SignUpPageRoute());
             }
           }),
-          
+
           BlocListener<ControllerBloc, ControllerState>(listener: (context, state) {
             if(state is ControllerFailure){
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -60,6 +61,12 @@ class HomePage extends StatelessWidget {
             icon: const Icon(Icons.exit_to_app),),
           title: const Text('ToDo'),),
         body: const HomepageBody(),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Theme.of(context).colorScheme.tertiary,
+          onPressed: (){
+            AutoRouter.of(context).push(TodoDetailRoute(todo: null));
+          },
+          child: const Icon(Icons.add, size: 26,),),
       )),
     );
   }
