@@ -98,6 +98,7 @@ class TodoForm extends StatelessWidget {
                             backgroundColor: Colors.redAccent,
                             content: Text(
                               "Invalid Input",
+                              textAlign: TextAlign.center,
                               style: Theme.of(context).textTheme.bodyText1,
                             )));
                       }

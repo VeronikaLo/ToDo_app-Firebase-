@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app/presentation/todo_detail/widgets/save_progress_overlay.dart';
 
 import '../../application/todo/todoform/todoform_bloc.dart';
 import '../../core/failures/todo_failures.dart';
@@ -30,7 +31,7 @@ class TodoDetail extends StatelessWidget {
     return BlocProvider(
       create: (context) =>
           sl<TodoformBloc>()..add(InitializeTodoDetailPage(todo: todo)),
-      child: BlocListener<TodoformBloc, TodoformState>(
+      child: BlocConsumer<TodoformBloc, TodoformState>(
         listenWhen: (p, c) => p.failureOrSuccessOption != c.failureOrSuccessOption , //liste only when we get changesn in failureOrSuccessOption 
         listener: (context, state) {
           state.failureOrSuccessOption.fold(
@@ -43,13 +44,18 @@ class TodoDetail extends StatelessWidget {
               (unit) => Navigator.of(context).popUntil(  // popUntil -> remove all pages untill ..Homepage
                       (route) => route.settings.name == HomePageRoute.name)));
         },
-        child: Scaffold(
+        builder: (context, state){
+          return Scaffold(
           appBar: AppBar(
             title: Text(todo == null ? 'Create  ToDo' : 'Edit  ToDo'),
             centerTitle: true,
           ),
-          body: const TodoForm(),
-        ),
+          body: Stack(children: [
+            const TodoForm(),
+            SaveProgressOverlay(isSaving: state.isSaving),
+          ]),
+        );
+        } ,
       ),
     );
   }
